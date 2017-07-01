@@ -21,14 +21,24 @@ def parseLink(url):
 def createContest(site):
 	if site == "codeforces":
 		newContest = Codeforces(sys.argv[2])
+		newContest.writeFile(curPath, header)
 	if site == "atcoder":
 		pass
 	if site == "csacademy":
 		pass
 
+def readInfo():
+	f = open("cp-helper.txt", "r")
+	path = f.readline()
+	header = f.readline()
+
+	return (path[7:], header[9:])
 
 # MAIN HERE
 # ===============================================================================================
+
+curPath, header = readInfo()
+
 
 if sys.argv[1] == '-t':
 	print "Testing problem ..."

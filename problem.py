@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from shutil import copyfile
 import sys
 import requests
 
@@ -14,7 +15,30 @@ class Problem(object):
 			print "Fuck your network! Cannot connect to server"
 			sys.exit()
 		return html
+
+	def writeSolutions(self, location, header):
+		filename = location + '/' + self.level + '.cpp'
+		copyfile(header, filename)
+
+	def writeSamples(self, location):
+		for i in range(self.numSample):
+			item = self.inputs[i]
+			filename = location + '/in-' + self.level.lower() + '-' + str(i + 1) + '.inp'
 			
+			f = open(filename, "w+")
+			f.write(item)
+			f.close()
+
+			item = self.outputs[i]
+			filename = location + '/out-' + self.level.lower() + '-' + str(i + 1) + '.out'
+
+			f = open(filename, "w+")
+			f.write(item)
+			f.close()
+
+	def writeOutputs(self):
+		pass
+
 	@property
 	def name(self):
 		return self._name

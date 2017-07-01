@@ -1,5 +1,6 @@
 from problem import Problem
 from bs4 import BeautifulSoup
+import os
 import requests
 import sys
 
@@ -23,20 +24,25 @@ class Contest(object):
 		self.endTime = endTime
 		self.problems = problems
 
-	def parseName(html): 
-		pass
+	# create folder and input ouput files
+	def writeFile(self, path, header):
 
-	def parseSite(html):
-		pass
+		path = path[:-1]
+		location = path + '/' + self.name
 
-	def parseStart(html):
-		pass
+		if not os.path.exists(location):
+   			os.makedirs(location)
+   		else:
+   			print "[Careful !!!] Contest existed! Do you want to override all data? (y/n): "
+   			ans = raw_input()
+   			if (ans == 'y'):
+   				 pass
+   			else:
+   				sys.exit()
 
-	def parseEnd(html):
-		pass
-
-	def parseProblem(html):
-		pass
+   		for pro in self.problems:
+   			pro.writeSolutions(location, header)
+   			pro.writeSamples(location)
 
 	@property
 	def name(self):

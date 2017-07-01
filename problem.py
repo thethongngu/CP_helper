@@ -52,11 +52,11 @@ class Problem(object):
 		self._level = newLevel
 
 	@timeLimit.setter
-	def numProbs(self, newTimeLimit):
+	def timeLimit(self, newTimeLimit):
 		self._timeLimit = newTimeLimit
 
 	@memoryLimit.setter
-	def startTime(self, newMemoryLimit):
+	def memoryLimit(self, newMemoryLimit):
 		self._memoryLimit = newMemoryLimit
 
 	@numSample.setter
@@ -64,9 +64,9 @@ class Problem(object):
 		self._numSample = newNumSample
 
 	@inputs.setter
-	def problems(self, newInputs):
+	def inputs(self, newInputs):
 		self._inputs = newInputs
 
 	@outputs.setter
-	def problems(self, newOutputs):
+	def outputs(self, newOutputs):
 		self._outputs = newOutputs

@@ -26,14 +26,15 @@ class ProblemCodeforces(Problem):
 			header = html.find("div", class_="sample-tests")
 			print header
 
-			self.numSample = self.parseNumSample(header)
-			self.inputs = self.parseInputs(header)
-			self.outputs = self.parseOutputs(header)
+			self.numSample, self.inputs, self.outputs = self.parseSample(header)
 
 			print self.name
 			print self.level
 			print self.timeLimit
 			print self.memoryLimit
+			print self.numSample
+			print self.inputs[1]
+			print self.outputs[1]
 
 	def parseName(self, html):
 		title = html.find("div", class_="title").string
@@ -63,16 +64,26 @@ class ProblemCodeforces(Problem):
 		memory = memory.replace(' megabytes','')
 		return int(memory)
 
-	def parseNumSample(self, html):
-		raw = html.find_all("div", class_="input")
-		print raw
-		return 0
+	def parseSample(self, html):
+		inps = [];  
+		outs = [];
 
-	def parseInputs(self, html):
-		return []
+		raw = html.find_all("pre")
+		for i in range(len(raw)):
+			item = raw[i]
 
-	def parseOutputs(self, html):
-		return []
+			if i % 2 == 0:
+				inp = str(item)
+				inp = inp[5:-11]
+				inp = inp.replace('<br/>','\n')
+				inps.append(inp)
+			else:
+				out = str(item)
+				out = out[5:-11]
+				out = out.replace('<br/>','\n')
+				outs.append(out)
 
-a = ProblemCodeforces("http://codeforces.com/problemset/problem/821/E")
-b = ProblemCodeforces("http://codeforces.com/contest/819/problem/A")
+		return (len(raw) / 2, inps, outs)
+
+#a = ProblemCodeforces("http://codeforces.com/problemset/problem/821/E")
+#b = ProblemCodeforces("http://codeforces.com/contest/819/problem/A")

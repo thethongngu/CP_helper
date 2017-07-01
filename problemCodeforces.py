@@ -15,6 +15,8 @@ class ProblemCodeforces(Problem):
 			self.inputs = inputs
 			self.outputs = outputs
 		else:
+			self.url = url
+
 			html = super(ProblemCodeforces, self).getRequest(url)
 
 			header = html.find("div", class_="header")
@@ -24,17 +26,8 @@ class ProblemCodeforces(Problem):
 			self.memoryLimit = self.parseMemoryLimit(header)
 
 			header = html.find("div", class_="sample-tests")
-			print header
 
 			self.numSample, self.inputs, self.outputs = self.parseSample(header)
-
-			print self.name
-			print self.level
-			print self.timeLimit
-			print self.memoryLimit
-			print self.numSample
-			print self.inputs[1]
-			print self.outputs[1]
 
 	def parseName(self, html):
 		title = html.find("div", class_="title").string

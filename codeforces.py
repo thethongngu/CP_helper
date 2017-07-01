@@ -1,4 +1,5 @@
 from contest import Contest
+from problemCodeforces import ProblemCodeforces
 from bs4 import BeautifulSoup
 import sys
 import requests
@@ -15,18 +16,18 @@ class Codeforces(Contest):
 			self.endTime = endTime
 			self.problems = problems
 		else:
+			self.url = url
+
 			html = super(Codeforces, self).getRequest(url)
 			self.name = self.parseName(html)
-			
+			self.numProbs = self.parseNumProbs(html)
+			self.problems = self.parseProblem(html)
 
 			# Will add startTime and endTime later
 			"""
 			self.startTime = self.parseStart(html)
 			self.endTime = self.parseEnd(html)
 			"""
-
-			#self.numProbs
-			#self.problems = self.parseProblem(hmtl)
 
 	def parseName(self, html): 
 		title = html.title.string
@@ -39,6 +40,10 @@ class Codeforces(Contest):
 		title = title.lower()
 		return title
 
+	def parseNumProbs(self, html):
+		raw = html.find_all("td", class_="id")
+		return len(raw)
+
 	def parseStart(self, html):
 		pass
 
@@ -46,9 +51,17 @@ class Codeforces(Contest):
 		pass
 
 	def parseProblem(self, html):
-		pass
+		raw = html.find_all("td", class_="id")
+		pros = []
+		for item in raw:
+			sub = item.a['href']
+			link = "http://codeforces.com" + sub
+
+			p = ProblemCodeforces(link)
+			pros.append(p)
+
+		return pros
 
 
 a = Codeforces("http://codeforces.com/contest/819")
-print a.name
 

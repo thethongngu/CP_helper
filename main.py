@@ -80,7 +80,7 @@ def activeContest(location):
 curPath, header, compileCom, exeCom, currentContest = readInfo()
 
 if sys.argv[1] == '-o':
-	if sys.argv[2] == 'inp' or sys.argv[2] == 'out':
+	if sys.argv[2] == 'inp':
 		command = "sublime " + currentContest + '/' + sys.argv[2] + '.' + sys.argv[2]
 	else:
 		command = "sublime " + currentContest + '/' + sys.argv[2] + '.cpp'

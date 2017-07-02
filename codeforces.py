@@ -63,5 +63,4 @@ class Codeforces(Contest):
 		return pros
 
 
-a = Codeforces("http://codeforces.com/contest/819")
-
+#a = Codeforces("http://codeforces.com/contest/819")

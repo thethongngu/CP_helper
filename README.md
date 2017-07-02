@@ -12,7 +12,7 @@ Parsing tool for competitive programmer
 - Check sample inputs and outputs
 
 ## How to use
-- Edit your path in ```cp-helper.txt```
+- Edit your path in ```cp-helper.ini```
 - Run ```python main.py``` to view help
 - Example: 
 	- ```python main.py -n [contest url]```: New contest 

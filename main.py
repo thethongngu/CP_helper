@@ -7,8 +7,9 @@ import sys
 parser = argparse.ArgumentParser(description='Competitve programming helper.')
 parser.add_argument('-n', action='store', type=str, dest='contestUrl', help='Create new contest')
 parser.add_argument('-p', action='store', type=str, dest='problemUrl', help='Create new problem')
-parser.add_argument('-t', action='store', type=str, dest='problemTest', help='Test problem')
-parser.add_argument('-c', action='store', type=str, dest='problemCompile', help='Compile problem')
+parser.add_argument('-t', action='store', type=str, dest='problemTest', help='Test problem (filename = [A, B, C, ...])')
+parser.add_argument('-c', action='store', type=str, dest='problemCompile', help='Compile problem (filename = [A, B, C, ...])')
+parser.add_argument('-m', action='store', type=str, dest='currentContest', help='Move to another contest directory')
 args = parser.parse_args()
 
 def parseLink(url):
@@ -49,21 +50,37 @@ def readInfo():
 	header = iniFile.get('Data', 'header')
 	compileCom = iniFile.get('Data', 'compileCom')
 	exeCom = iniFile.get('Data', 'exeCom')
+	currentContest = iniFile.get('Data', 'currentContest')
 
-	return (path, header, compileCom, exeCom)
+	return (path, header, compileCom, exeCom, currentContest)
 
 # MAIN HERE
 # ===============================================================================================
 
-curPath, header, compileCom, exeCom = readInfo()
+curPath, header, compileCom, exeCom, currentContest = readInfo()
+
+if sys.argv[1] == '-m':
+	iniFile = ConfigParser.ConfigParser()
+	cfgFile = open("cp-helper.ini",'w')
+
+	iniFile.add_section('Data')
+	iniFile.set('Data', 'path', curPath)
+	iniFile.set('Data', 'header', header)
+	iniFile.set('Data', 'compileCom', compileCom)
+	iniFile.set('Data', 'exeCom', exeCom)
+	iniFile.set('Data', 'currentContest', sys.argv[2])
+	iniFile.write(cfgFile)
+
+	cfgFile.close()
 
 if sys.argv[1] == '-t':
 	print "Testing problem ..."
+	
 
 if sys.argv[1] == '-c':
 	print "Compiling problem ..."
-	#command 
-	#os.system(command)
+	command = compileCom.replace("<filename>",sys.argv[2] + ".cpp")
+	os.system(command)
 
 if sys.argv[1] == '-n':
 	print "Creating new contest ..."

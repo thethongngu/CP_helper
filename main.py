@@ -3,6 +3,7 @@ from problemCodeforces import ProblemCodeforces
 import argparse
 import ConfigParser
 import sys
+import os
 
 parser = argparse.ArgumentParser(description='Competitve programming helper.')
 parser.add_argument('-n', action='store', type=str, dest='contestUrl', help='Create new contest')
@@ -73,13 +74,44 @@ if sys.argv[1] == '-m':
 
 	cfgFile.close()
 
+	print "Contest activated!"
+
 if sys.argv[1] == '-t':
 	print "Testing problem ..."
+	print "Current contest: " + currentContest
 	
+	location = currentContest + sys.argv[2] + ".cpp"
+	command = exeCom.replace("<filename>", location)
+
+	num = 0
+	while (1):
+		num += 1
+		inpPath = currentContest + 'in-' + sys.argv[2].lower() + '-' + str(num) + '.inp'
+		if os.path.exists(inpPath):
+			command = command + ' < ' + inpPath
+			print "TEST " + str(num) + ":"
+			print ""
+
+			print "YOUR OUTPUT:"
+			os.system(command)
+
+			print ""
+			print "CORRECT ANSWER:"
+			outPath = currentContest + 'out-' + sys.argv[2].lower() + '-' + str(num) + '.out'
+			f = open(outPath, "r")
+			out = f.readlines()
+			print out
+			print "==============================="
+
+   		else:
+   			break		
+	
+   	print "Done!"
 
 if sys.argv[1] == '-c':
 	print "Compiling problem ..."
-	command = compileCom.replace("<filename>",sys.argv[2] + ".cpp")
+	print "Current contest: " + currentContest + sys.argv[2] + ".cpp"
+	command = compileCom.replace("<filename>",currentContest + sys.argv[2] + ".cpp")
 	os.system(command)
 
 if sys.argv[1] == '-n':

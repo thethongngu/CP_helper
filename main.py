@@ -80,8 +80,12 @@ def activeContest(location):
 curPath, header, compileCom, exeCom, currentContest = readInfo()
 
 if sys.argv[1] == '-o':
-	if os.path.exists(currentContest + '/'):
+	if sys.argv[2] == 'inp' or sys.argv[2] == 'out':
+		command = "sublime " + currentContest + '/' + sys.argv[2] + '.' + sys.argv[2]
+	else:
 		command = "sublime " + currentContest + '/' + sys.argv[2] + '.cpp'
+
+	if os.path.exists(currentContest + '/'):
 		print command
 		os.system(command)
 	else:
@@ -99,29 +103,41 @@ if sys.argv[1] == '-t':
 	command = exeCom.replace("<filename>", location)
 
 	num = 0
+	stop = False
 	while (1):
 		num += 1
 		inpPath = currentContest + '/in-' + sys.argv[2].lower() + '-' + str(num) + '.inp'
 		if os.path.exists(inpPath):
-			command = command + ' < ' + inpPath
 			print "==============================="
 			print "TEST " + str(num) + ":"
 			print ""
+		else:
+			print "==============================="
+			print "TEST -1:"
+			print ""
 
-			print "YOUR OUTPUT:"
-			os.system(command)
+			inpPath = currentContest + '/inp.inp'
+   			stop = True		
 
+		command = command + ' < ' + inpPath		
+
+		print "YOUR OUTPUT:"
+		os.system(command)
+
+		if not stop:
 			print ""
 			print "CORRECT ANSWER:"
+
 			outPath = currentContest + '/out-' + sys.argv[2].lower() + '-' + str(num) + '.out'
 			f = open(outPath, "r")
 			out = f.readlines()
+
 			for item in out:
 				sys.stdout.write(item)
-			print ""
-
-   		else:
-   			break		
+		print ""
+   			
+   		if stop:
+   			break
 
 	print "==============================="
    	print "Done!"

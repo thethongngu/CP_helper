@@ -37,6 +37,10 @@ class Problem(object):
 			f.write(item)
 			f.close()
 
+		filename = location + '/inp.inp'
+		f = open(filename, "w+")
+		f.close()
+
 	def writeFile(self, path, header, relatedContest):
 
 		location = path + '/' + relatedContest.name

@@ -8,8 +8,8 @@ import os
 parser = argparse.ArgumentParser(description='Competitve programming helper.')
 parser.add_argument('-n', action='store', type=str, dest='contestUrl', help='Create new contest')
 parser.add_argument('-p', action='store', type=str, dest='problemUrl', help='Create new problem')
-parser.add_argument('-t', action='store', type=str, dest='problemTest', help='Test problem (filename = [A, B, C, ...])')
-parser.add_argument('-c', action='store', type=str, dest='problemCompile', help='Compile problem (filename = [A, B, C, ...])')
+parser.add_argument('-t', action='store', type=str, dest='Filename', help='Test problem (FILENAME = [A, B, C, ...])')
+parser.add_argument('-c', action='store', type=str, dest='filename', help='Compile problem (FILENAME = [A, B, C, ...])')
 parser.add_argument('-m', action='store', type=str, dest='currentContest', help='Move to another contest directory')
 args = parser.parse_args()
 
@@ -79,6 +79,7 @@ if sys.argv[1] == '-m':
 if sys.argv[1] == '-t':
 	print "Testing problem ..."
 	print "Current contest: " + currentContest
+	print ""
 	
 	location = currentContest + sys.argv[2] + ".cpp"
 	command = exeCom.replace("<filename>", location)

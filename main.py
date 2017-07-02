@@ -122,7 +122,8 @@ if sys.argv[1] == '-t':
 		command = command + ' < ' + inpPath		
 
 		print "YOUR OUTPUT:"
-		os.system(command)
+		if os.path.exists(inpPath): 
+			os.system(command)
 
 		if not stop:
 			print ""

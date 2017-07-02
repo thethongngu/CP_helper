@@ -27,7 +27,7 @@ class Contest(object):
 	# create folder and input ouput files
 	def writeFile(self, path, header):
 
-		path = path[:-1]
+		
 		location = path + '/' + self.name
 
 		if not os.path.exists(location):

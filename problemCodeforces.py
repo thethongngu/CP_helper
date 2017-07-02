@@ -25,6 +25,7 @@ class ProblemCodeforces(Problem):
 			self.timeLimit = self.parseTimeLimit(header)
 			self.memoryLimit = self.parseMemoryLimit(header)
 
+
 			header = html.find("div", class_="sample-tests")
 
 			self.numSample, self.inputs, self.outputs = self.parseSample(header)
@@ -78,5 +79,13 @@ class ProblemCodeforces(Problem):
 
 		return (len(raw) / 2, inps, outs)
 
-#a = ProblemCodeforces("http://codeforces.com/problemset/problem/821/E")
+	def linkOfContest(self):
+		html = super(ProblemCodeforces, self).getRequest(self.url)
+
+		raw = html.find("tbody").find("a")['href']
+		link = "http://codeforces.com" + raw
+		return link
+
+a = ProblemCodeforces("http://codeforces.com/problemset/problem/821/E")
+
 #b = ProblemCodeforces("http://codeforces.com/contest/819/problem/A")

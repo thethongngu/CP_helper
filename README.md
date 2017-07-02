@@ -15,4 +15,4 @@ Parsing tool for competitive programmer
 - Edit your path in ```cp-helper.txt```
 	- ```path``` is location of your folder contains solutions for every contest
 	- ```header``` is location of your header file
-- run ```python main.py``` to view help
+- Run ```python main.py``` to view help

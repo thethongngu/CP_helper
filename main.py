@@ -1,4 +1,5 @@
 from codeforces import Codeforces
+from problemCodeforces import ProblemCodeforces
 import argparse
 import sys
 
@@ -22,6 +23,19 @@ def createContest(site):
 	if site == "codeforces":
 		newContest = Codeforces(sys.argv[2])
 		newContest.writeFile(curPath, header)
+	if site == "atcoder":
+		pass
+	if site == "csacademy":
+		pass
+
+def createProblem(site):
+	if site == "codeforces":
+		newProblem = ProblemCodeforces(sys.argv[2])
+		linkContest = newProblem.linkOfContest()
+
+		relatedContest = Codeforces(linkContest)
+		newProblem.writeFile(curPath, header, relatedContest)
+
 	if site == "atcoder":
 		pass
 	if site == "csacademy":

@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from shutil import copyfile
 import sys
+import os
 import requests
 
 
@@ -36,12 +37,28 @@ class Problem(object):
 			f.write(item)
 			f.close()
 
-	def writeOutputs(self):
-		pass
+	def writeFile(self, path, header, relatedContest):
 
+		path = path[:-1]
+		location = path + '/' + relatedContest.name
+		
+		if not os.path.exists(location):
+   			relatedContest.writeFile(path, header)
+   		else:
+   			print "[Careful !!!] Problem existed! Do you want to override all data? (y/n): "
+   			ans = raw_input()
+   			if (ans == 'y'):
+   				 self.writeSolutions(location, header)
+   			else:
+   				sys.exit()
+		
 	@property
 	def name(self):
 		return self._name
+
+	@property
+	def url(self):
+		return self._url
 
 	@property
 	def level(self):
@@ -66,6 +83,10 @@ class Problem(object):
 	@property
 	def outputs(self):
 		return self._outputs
+
+	@url.setter
+	def url(self, newUrl):
+		self._url = newUrl
 
 	@name.setter
 	def name(self, newName):

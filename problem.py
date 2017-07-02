@@ -39,7 +39,6 @@ class Problem(object):
 
 	def writeFile(self, path, header, relatedContest):
 
-		path = path[:-1]
 		location = path + '/' + relatedContest.name
 		
 		if not os.path.exists(location):

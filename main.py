@@ -8,7 +8,8 @@ import os
 parser = argparse.ArgumentParser(description='Competitve programming helper.')
 parser.add_argument('-n', action='store', type=str, dest='contestUrl', help='Create new contest')
 parser.add_argument('-p', action='store', type=str, dest='problemUrl', help='Create new problem')
-parser.add_argument('-t', action='store', type=str, dest='Filename', help='Test problem (FILENAME = [A, B, C, ...])')
+parser.add_argument('-o', action='store', type=str, dest='filename', help='Open solution with sublime text')
+parser.add_argument('-t', action='store', type=str, dest='filename', help='Test problem (FILENAME = [A, B, C, ...])')
 parser.add_argument('-c', action='store', type=str, dest='filename', help='Compile problem (FILENAME = [A, B, C, ...])')
 parser.add_argument('-m', action='store', type=str, dest='currentContest', help='Move to another contest directory')
 args = parser.parse_args()
@@ -26,6 +27,7 @@ def createContest(site):
 	if site == "codeforces":
 		newContest = Codeforces(sys.argv[2])
 		newContest.writeFile(curPath, header)
+		activeContest(curPath + '/' + newContest.name)
 	if site == "atcoder":
 		pass
 	if site == "csacademy":
@@ -38,6 +40,7 @@ def createProblem(site):
 
 		relatedContest = Codeforces(linkContest)
 		newProblem.writeFile(curPath, header, relatedContest)
+		activeContest(curPath + '/' + relatedContest.name)
 
 	if site == "atcoder":
 		pass
@@ -47,20 +50,15 @@ def createProblem(site):
 def readInfo():
 	iniFile = ConfigParser.ConfigParser()
 	iniFile.read('cp-helper.ini')
-	path = iniFile.get('Data', 'path')
+	curPath = iniFile.get('Data', 'path')
 	header = iniFile.get('Data', 'header')
 	compileCom = iniFile.get('Data', 'compileCom')
 	exeCom = iniFile.get('Data', 'exeCom')
 	currentContest = iniFile.get('Data', 'currentContest')
 
-	return (path, header, compileCom, exeCom, currentContest)
+	return (curPath, header, compileCom, exeCom, currentContest)
 
-# MAIN HERE
-# ===============================================================================================
-
-curPath, header, compileCom, exeCom, currentContest = readInfo()
-
-if sys.argv[1] == '-m':
+def activeContest(location):
 	iniFile = ConfigParser.ConfigParser()
 	cfgFile = open("cp-helper.ini",'w')
 
@@ -69,27 +67,44 @@ if sys.argv[1] == '-m':
 	iniFile.set('Data', 'header', header)
 	iniFile.set('Data', 'compileCom', compileCom)
 	iniFile.set('Data', 'exeCom', exeCom)
-	iniFile.set('Data', 'currentContest', sys.argv[2])
+	iniFile.set('Data', 'currentContest', location)
 	iniFile.write(cfgFile)
 
 	cfgFile.close()
 
 	print "Contest activated!"
 
+# MAIN HERE
+# ===============================================================================================
+
+curPath, header, compileCom, exeCom, currentContest = readInfo()
+
+if sys.argv[1] == '-o':
+	if os.path.exists(currentContest + '/'):
+		command = "sublime " + currentContest + '/' + sys.argv[2] + '.cpp'
+		print command
+		os.system(command)
+	else:
+		print "Contest have not created yet"
+
+if sys.argv[1] == '-m':
+	activeContest(sys.argv[2])
+
 if sys.argv[1] == '-t':
-	print "Testing problem ..."
 	print "Current contest: " + currentContest
 	print ""
+	print "Testing problem ..."
 	
-	location = currentContest + sys.argv[2] + ".cpp"
+	location = currentContest + '/' + sys.argv[2] + ".cpp"
 	command = exeCom.replace("<filename>", location)
 
 	num = 0
 	while (1):
 		num += 1
-		inpPath = currentContest + 'in-' + sys.argv[2].lower() + '-' + str(num) + '.inp'
+		inpPath = currentContest + '/in-' + sys.argv[2].lower() + '-' + str(num) + '.inp'
 		if os.path.exists(inpPath):
 			command = command + ' < ' + inpPath
+			print "==============================="
 			print "TEST " + str(num) + ":"
 			print ""
 
@@ -98,22 +113,25 @@ if sys.argv[1] == '-t':
 
 			print ""
 			print "CORRECT ANSWER:"
-			outPath = currentContest + 'out-' + sys.argv[2].lower() + '-' + str(num) + '.out'
+			outPath = currentContest + '/out-' + sys.argv[2].lower() + '-' + str(num) + '.out'
 			f = open(outPath, "r")
 			out = f.readlines()
-			print out
-			print "==============================="
+			for item in out:
+				sys.stdout.write(item)
+			print ""
 
    		else:
    			break		
-	
+
+	print "==============================="
    	print "Done!"
 
 if sys.argv[1] == '-c':
 	print "Compiling problem ..."
-	print "Current contest: " + currentContest + sys.argv[2] + ".cpp"
-	command = compileCom.replace("<filename>",currentContest + sys.argv[2] + ".cpp")
+	print "Current contest: " + currentContest + '/' + sys.argv[2] + ".cpp"
+	command = compileCom.replace("<filename>",currentContest + '/' + sys.argv[2] + ".cpp")
 	os.system(command)
+	print "Compiled completed!"
 
 if sys.argv[1] == '-n':
 	print "Creating new contest ..."

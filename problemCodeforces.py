@@ -5,7 +5,7 @@ import requests
 
 class ProblemCodeforces(Problem):
 
-	def __init__(self, url = "", name = "", level = "", timeLimit = 0, memoryLimit = 0, numSample = 0, inputs = [], outputs = []):
+	def __init__(self, url = "", name = "", level = "", timeLimit = 0.0, memoryLimit = 0.0, numSample = 0, inputs = [], outputs = []):
 		if url == "":
 			self.name = name
 			self.level = level
@@ -47,7 +47,8 @@ class ProblemCodeforces(Problem):
 		second = time.find('</div>', first + 1)
 		time = time[first + 6: second]
 		time = time.replace(' seconds','')
-		return int(time)
+		time = time.replace(' second','')
+		return float(time)
 
 	def parseMemoryLimit(self, html):
 		raw = html.find("div", class_="memory-limit")
@@ -56,7 +57,8 @@ class ProblemCodeforces(Problem):
 		second = memory.find('</div>', first + 1)
 		memory = memory[first + 6: second]
 		memory = memory.replace(' megabytes','')
-		return int(memory)
+		memory = memory.replace(' megabyte','')
+		return float(memory)
 
 	def parseSample(self, html):
 		inps = [];  
@@ -86,6 +88,6 @@ class ProblemCodeforces(Problem):
 		link = "http://codeforces.com" + raw
 		return link
 
-a = ProblemCodeforces("http://codeforces.com/problemset/problem/821/E")
 
+#a = ProblemCodeforces("http://codeforces.com/problemset/problem/821/E")
 #b = ProblemCodeforces("http://codeforces.com/contest/819/problem/A")

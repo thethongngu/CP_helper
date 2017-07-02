@@ -1,6 +1,7 @@
 from codeforces import Codeforces
 from problemCodeforces import ProblemCodeforces
 import argparse
+import ConfigParser
 import sys
 
 parser = argparse.ArgumentParser(description='Competitve programming helper.')
@@ -42,24 +43,27 @@ def createProblem(site):
 		pass
 
 def readInfo():
-	f = open("cp-helper.txt", "r")
-	path = f.readline()
-	header = f.readline()
+	iniFile = ConfigParser.ConfigParser()
+	iniFile.read('cp-helper.ini')
+	path = iniFile.get('Data', 'path')
+	header = iniFile.get('Data', 'header')
+	compileCom = iniFile.get('Data', 'compileCom')
+	exeCom = iniFile.get('Data', 'exeCom')
 
-	return (path[7:], header[9:])
+	return (path, header, compileCom, exeCom)
 
 # MAIN HERE
 # ===============================================================================================
 
-curPath, header = readInfo()
-
+curPath, header, compileCom, exeCom = readInfo()
 
 if sys.argv[1] == '-t':
 	print "Testing problem ..."
 
 if sys.argv[1] == '-c':
 	print "Compiling problem ..."
-
+	#command 
+	#os.system(command)
 
 if sys.argv[1] == '-n':
 	print "Creating new contest ..."

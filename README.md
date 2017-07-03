@@ -18,6 +18,6 @@ Parsing tool for competitive programmer
 	- ```python main.py -n [contest url]```: New contest 
 	- ```python main.py -p [problem url]```: New problem
 	- ```python main.py -m [path]```: active this contest to compiling and testing
-	- ```python main.py -c [A, B, C, D, E]```: compile .cpp in actived contest	
-	- ```python main.py -t [A, B, C, D, E]```: test .cpp in actived contest
-	- ```python main.py -o [A, B, C, D, E, inp]```: open .cpp, in or out files in actived contest
+	- ```python main.py -c [A, B, C, D, E]```: compile .cpp in actived contest		
+ 	- ```python main.py -t [A, B, C, D, E]```: test .cpp in actived contest
+ 	- ```python main.py -o [A, B, C, D, E, inp]```: open .cpp, in or out files in actived contest

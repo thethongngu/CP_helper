@@ -33,13 +33,12 @@ class Codeforces(Contest):
 		title = html.title.string
 		title = title[12:-13]
 		title = title.lower()
-		title = title.replace(')','-')
-		title = title.replace('(','-')
-		title = title.replace('#','-')
-		title = title.replace(' ','-')	
-		title = title.replace(',','-')
-		title = title.replace('.','-')
-		title += 'e'
+		title = title.replace(')','')
+		title = title.replace('(','')
+		title = title.replace('#','')
+		title = title.replace(',','')
+		title = title.replace('.','')
+		title = title.replace(' ','-')
 
 		return title
 

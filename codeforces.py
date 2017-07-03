@@ -32,12 +32,15 @@ class Codeforces(Contest):
 	def parseName(self, html): 
 		title = html.title.string
 		title = title[12:-13]
-		title = title.replace('(','')
-		title = title.replace(')','')
-		title = title.replace('#','')
-		title = title.replace('.','')
-		title = title.replace(' ','-')
 		title = title.lower()
+		title = title.replace(')','-')
+		title = title.replace('(','-')
+		title = title.replace('#','-')
+		title = title.replace(' ','-')	
+		title = title.replace(',','-')
+		title = title.replace('.','-')
+		title += 'e'
+
 		return title
 
 	def parseNumProbs(self, html):
